@@ -1,0 +1,11 @@
+/*from http://www.impulseadventure.com/photo/exif-orientation.html */
+/* 2 4 5 7 - non-standard, flipped */
+NONE
+NORMAL
+FLIP /*mirror*/
+BOTTOM /* rotate 180 */
+BOTTOM_FLIP /* rottate 180 and mirror */
+???5 /*rotate 90 and mirror(flip) */
+/* rotate -90 */
+???7 /* rotate -90 and flip
+/* rotate 90 */

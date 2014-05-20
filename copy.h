@@ -1,0 +1,1 @@
+int copy_unmodified(const char *src, const char *dest);

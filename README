@@ -1,0 +1,91 @@
+ABOUT
+
+This is `convlite', a lightweight image conversion tool intended to be as
+compatible with the syntax of ImageMagick's `convert' utility as my fellow
+java programmers need it :^)
+
+LICENSE: 
+Cap says: see LICENSE. In short, it's a 3-clause BSD.
+
+INSTALLATION:
+
+Dependencies:
+imlib2 for static images conversion and format detection
+gd2 >= 2.0.28
+libexif for jpeg auto-orientation
+xorg, of course 
+
+make: to build the 'convlite' binary
+
+make install: install the binary under /usr/bin (default)
+
+make test: perform both performance and sanity tests
+
+    make performancetest: convert sample files using convert and convlite, and
+	display the time elapsed.
+
+    make sanitycheck: will perform some unit-test like checks, and return 0 if
+	everything works as expected, and non-zero if anything fails 
+
+I'm not sure about using autotools in BSD projects , and the pros/cons of the 
+other configuration systems, so for now, you just have to edit the Makefile to
+enable/disable things and/or change installation directory. For now, it's pretty 
+straightforward.
+
+USAGE:
+
+convlite [options] input-file [options] outfile|FORMAT:-
+
+The syntax of the tool is intended to be compatible with the syntax that is used
+by 'convert'.
+
+Currently version, the following options are used:
+
+-broken - process jpeg images as 32-Bit through gd interface instead of imlib
+    interface. Useful when default conversion looses palette so that too many 
+    details are missing. Only has effect when resizing jpegs, otherwise ignored.
+
+-sample|-thumbnail|-resize - image scaling, all these options have the same
+    effect. Must be followed by dimensions value passed as two numbers separated
+    by letter 'x', for example, "-sample 200x300". Dimensions can followed by
+    aspect ratio options WWWxHHH[\ASPECT_OPTIONS], for example, `800x600\>',
+    where aspect ratio option can be one of the following:
+	`>' : "downscale". Only scale image if the resulting image is smaller 
+	    than the original image
+	`^' : "fill area". Resize the image based on the smallest fitting 
+	    dimension. That is, the image is resized to completely fill (and 
+	    most likely overflow) the pixel area given.
+    By default, the aspect ratio is based on the largest fitting dimension.
+
+-auto-orient - if there is any EXIF data, rotate and/or flip the image based
+    such data. Currently, only has effect for JPEG files
+
+-extent NNxNN, -gravity VALUE, registry:... - present for compatibility with 
+'convert'. Do nothing.
+    
+FORMAT:-  - set target format to be FORMAT (e.g. png:- , gif:- etc) and write
+    output to stdout.
+
+Any other options beginning with dashes will be ignored, and options not 
+beginning with dashes will be treated as filenames ( a first occurence as an 
+input file, the next occurence as an output file).
+
+EXAMPLES:
+
+A quick one:
+
+convlite myfile.gif -scale 800x600 mynewfile.gif
+
+Resize myfile.gif to be 800 pixels width and 600 pixels height, writing output
+to mynewfile.gif
+
+A more complex example:
+
+convlite -define registry:temporary-path=/tmp in.jpg -coalesce \
+			-auto-orient -thumbnail 200x200\> png:-
+
+Here, '-define', 'registry:temporary-path=/tmp', '-coalesce' and '-auto-orient'
+options are ignored. As a result, in.jpg will be converted to png format,
+scaled down to fit 200x200 area (provided that in.jpg was larger than that area)
+and written to stdout.
+

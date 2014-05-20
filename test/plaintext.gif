@@ -1,0 +1,16 @@
+for dir in libnsgif; do \
+make -C $dir BUILDDIR=../; \
+done
+make[1]: Вход в каталог `/home/sin/projects/convlite/libnsgif'
+ COMPILE: src/libnsgif.c
+      AR: ..//libnsgif.a
+make[1]: Выход из каталога `/home/sin/projects/convlite/libnsgif'
+cc -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`   -c -o imthumb.o imthumb.c
+cc -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`   -c -o gifthumb.o gifthumb.c
+cc -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`   -c -o brokenjpeg.o brokenjpeg.c
+cc -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`   -c -o fallbacks.o fallbacks.c
+cc -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`   -c -o copy.o copy.c
+cc -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`   -c -o funnel_gif.o funnel_gif.c
+cc -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`   -c -o main.o main.c
+gcc -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags` -c main.c -o main.o
+gcc -o convlite main.o imthumb.o gifthumb.o brokenjpeg.o fallbacks.o copy.o funnel_gif.o libnsgif.a `imlib2-config --libs` -lgd -lz -lm -lgif
