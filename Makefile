@@ -1,7 +1,6 @@
 all: subdirs headers imthumb.o gifthumb.o brokenjpeg.o fallbacks.o copy.o funnel_gif.o exif_data.o convlite
 
 #installation options
-VERSION = 0.9.2
 DESTDIR =
 PREFIX = /usr
 BINDIR = $(PREFIX)/bin
@@ -54,13 +53,13 @@ convlite: main.c main.o imthumb.o gifthumb.o brokenjpeg.o copy.o funnel_gif.o ex
 install:
 	install -d $(DESTDIR)$(BINDIR)
 	install -d $(DESTDIR)$(DOCDIR)
-	install -d $(DESTDIR)$(DOCDIR)/convlite-$(VERSION)/libnsgif
+	install -d $(DESTDIR)$(DOCDIR)/convlite/libnsgif
 	install -m 0755 convlite $(DESTDIR)$(BINDIR)
-	install -m 0644 README $(DESTDIR)$(DOCDIR)/convlite-$(VERSION)/
-	install -m 0644 COPYING $(DESTDIR)$(DOCDIR)/convlite-$(VERSION)/
-	install -m 0644 AUTHORS $(DESTDIR)$(DOCDIR)/convlite-$(VERSION)/
-	install -m 0644 Changelog $(DESTDIR)$(DOCDIR)/convlite-$(VERSION)/
-	install -m 0644 libnsgif/COPYING $(DESTDIR)$(DOCDIR)/convlite-$(VERSION)/libnsgif/
+	install -m 0644 README $(DESTDIR)$(DOCDIR)/convlite/
+	install -m 0644 COPYING $(DESTDIR)$(DOCDIR)/convlite/
+	install -m 0644 AUTHORS $(DESTDIR)$(DOCDIR)/convlite/
+	install -m 0644 Changelog $(DESTDIR)$(DOCDIR)/convlite/
+	install -m 0644 libnsgif/COPYING $(DESTDIR)$(DOCDIR)/convlite/libnsgif/
 
 test: performancetest sanitycheck
 
