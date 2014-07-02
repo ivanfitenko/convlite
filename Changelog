@@ -2,7 +2,6 @@ Wed Jul  2 2014 convlite-0.9.3
 - add `!' scaling option for "exact" scaling, i.e. output image having exactly
     the same dimensions as requested
 - add `-version' option
-- don't use $(VERSION) on makefile and don't install stuff under versioned dir
 
 Thu Apr 25 2013 convlite-0.9.2
 - support -auto-orient option for jpeg files
