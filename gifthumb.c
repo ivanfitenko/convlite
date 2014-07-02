@@ -98,6 +98,8 @@ int resize_gif(char *outfile, char *file, int tw, int th, int scale) {
 	else
 		th=(float)gif.height/(float)gif.width*(float)tw;
     }
+    /* (scale == EXACT) just requires no changes on target dimensions */
+    
     for (i=1; i<=gif.frame_count; i++) {
 	/* cut the frame into gd structure */
 	/* for some reason, gd shifts the pointer, so we need to use buffer*/

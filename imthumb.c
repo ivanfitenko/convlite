@@ -126,7 +126,8 @@ int convert_imlib(char *outfile, char *file, int tw, int th, char *ext,
 		    else
 			th=(float)sh/(float)sw*(float)tw;
 	    }
-	    
+	    /* (scale == EXACT) just requires no changes on target dimensions */
+
 	    if ( (strncasecmp("ppm", fmt, 3) == 0)
 		|| (strncasecmp("pnm", fmt, 3) == 0) ) {
 		    if (scale == NONE) {

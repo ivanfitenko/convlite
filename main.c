@@ -7,6 +7,7 @@
 #include "options.h"
 
 void usage();
+void print_version();
 char * strip_framenum(char *filename);
 
 int main(int argc, char *argv[]) {
@@ -78,6 +79,9 @@ int main(int argc, char *argv[]) {
 							*/ 
 							have_orient = 1;
 							break;
+						case CNVL_OPT_VERSION:
+							print_version();
+							break;
 						case CNVL_OPT_IGNORE_TWO: 
 							/* 
 							* ignored option, 
@@ -116,6 +120,8 @@ int main(int argc, char *argv[]) {
 		    scale=FIT;
 	    else if (!strncmp(dims+strlen(dims)-1,">",1))
 		    scale=SHRINK;
+	    else if (!strncmp(dims+strlen(dims)-1,"!",1))
+		    scale=EXACT;
 	    else
 		    scale=ASPECT;
 	}
@@ -156,6 +162,11 @@ void usage() {
 	printf("%s\n"," usage: convlite [options] input-file [options] outfile");
 	printf("%s\n","options: [-broken] -sample|-thumbnail|-resize WWWxHHH");
 	exit(1);
+}
+
+void print_version() {
+	printf("%s\n", "convlite, version 0.9.3");
+	exit(0);
 }
 
 char * strip_framenum(char *filename) {

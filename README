@@ -55,6 +55,8 @@ Currently version, the following options are used:
 	`^' : "fill area". Resize the image based on the smallest fitting 
 	    dimension. That is, the image is resized to completely fill (and 
 	    most likely overflow) the pixel area given.
+	`!' : "exact" - will force the image size to exactly what you specify,
+	    most likely distoring its proportions.
     By default, the aspect ratio is based on the largest fitting dimension.
 
 -auto-orient - if there is any EXIF data, rotate and/or flip the image based

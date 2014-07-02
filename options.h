@@ -6,6 +6,7 @@ enum options {
 	CNVL_OPT_BROKEN,
 	CNVL_OPT_AUTOORIENT,
 	CNVL_OPT_IGNORE_TWO,
+	CNVL_OPT_VERSION,
 	CNVL_OPT_IGNORE
 };
 
@@ -25,5 +26,6 @@ args_used option[] = {
 {"-extent", CNVL_OPT_IGNORE_TWO},
 {"-broken", CNVL_OPT_BROKEN},
 {"-auto-orient", CNVL_OPT_AUTOORIENT},
+{"-version", CNVL_OPT_VERSION},
 {"unused", CNVL_OPT_NOOPTS}
 };
