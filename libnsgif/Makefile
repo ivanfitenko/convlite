@@ -15,7 +15,7 @@ WARNFLAGS := -Wall -W -Wundef -Wpointer-arith -Wcast-align \
 ifneq ($(TARGET),beos)
   WARNFLAGS := $(WARNFLAGS) -Werror
 endif
-CFLAGS := -D_BSD_SOURCE -I$(CURDIR)/include/ \
+CFLAGS := -D_DEFAULT_SOURCE -I$(CURDIR)/include/ \
 	-I$(CURDIR)/src $(WARNFLAGS) $(CFLAGS)
 ifneq ($(GCCVER),2)
   CFLAGS := $(CFLAGS) -std=c99
