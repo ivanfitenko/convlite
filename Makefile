@@ -15,7 +15,6 @@ CFLAGS = -O2 -Wall -Ilibnsgif/include/ `pkg-config imlib2 --cflags`
 # This needs a cleanup
 
 headers:
-	#echo '#define GEN_IMLIB_ERRNO_LENGTH '`awk /^enum\ _imlib_load_error/,/\}\;/ $(shell pkg-config imlib2 --cflags|sed 's/-I//g')/Imlib2.h | grep IMLIB_LOAD_ERROR | sed  -r 's/([A-Z_])+/\"&\"/g' | wc -l` > imlib_errno_generated.h
 	echo '#define GEN_IMLIB_ERRNO_LENGTH '`cat $(shell pkg-config imlib2 --cflags|sed 's/-I//g')/Imlib2.h | grep IMLIB_LOAD_ERROR | sed  -r 's/([A-Z_])+/\"&\"/g' | wc -l` > imlib_errno_generated.h
 	echo >> imlib_errno_generated.h
 	echo 'char *imlib_errno_generated[GEN_IMLIB_ERRNO_LENGTH] = {' >> imlib_errno_generated.h
