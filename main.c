@@ -113,6 +113,15 @@ int main(int argc, char *argv[]) {
 		    usage();
 	    }
 	    delim_pos=strcspn(dims,"x");
+	    if (strspn(dims,"0123456789") != delim_pos ||
+	        /* The second resize value may or may not contain character for
+	        * scaling policy, so we must allow both.
+	        */
+	        (strspn(dims+delim_pos+1,"0123456789") != strlen(dims+delim_pos+1) &&
+	        strspn(dims+delim_pos+1,"0123456789") != (strlen(dims+delim_pos+1)-1)) ) {
+	            printf("Invalid value for resising: %s\n", dims);
+	            exit(1);
+	    }
 	    tw=atoi(dims);
 	    th=atoi(dims+delim_pos+1);
 	    if (!th || !tw)
