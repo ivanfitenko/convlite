@@ -36,8 +36,10 @@ check_integrity() {
     fi
 
     
-# DON'T OVEROPTIMIZE
-# It's not just blind copy-and-paste.
+# DON'T OVEROPTIMIZE.
+# Note: checks for "OK" vs "FAIL" are not just copied-and-pasted code, the
+# logic differs there.
+# REQUIREMENTS for properly exiting and handling errors:
 # convlite MUST either return 0 AND output no error message AND create a file, - 
 # all at a time; or return non-zero AND output an error message and not write
 # anything to a file, even when using stdout
@@ -135,6 +137,12 @@ sanity() {
     echo -n "pass the image, no resizing, through stdout... "
     STDERR=$(./convlite test/ashot.png png:- > test/tmp/pngtopngstdout.png)
     check_integrity test/tmp/pngtopngstdout.png OK $? "$STDERR"
+    echo -n "resize image with improper X parameter... "
+    STDERR=$(./convlite -resize 2s00x200 test/ashot.png test/tmp/resizeimpoperX.png)
+    check_integrity test/tmp/resizeimproperX.png FAIL $? "$STDERR"
+    echo -n "resize image with improper Y parameter... "
+    STDERR=$(./convlite -resize 200x2s0 test/ashot.png test/tmp/resizeimproperY.png)
+    check_integrity test/tmp/resizeimproperY.png FAIL $? "$STDERR"
     echo -n "convert false png to jpeg, no resizing... "
     STDERR=$(./convlite test/plaintext.png test/tmp/false.jpg 2>&1 > /dev/null)
     check_integrity test/tmp/false.jpg FAIL $? "$STDERR"
