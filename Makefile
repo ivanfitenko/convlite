@@ -8,17 +8,18 @@ BINDIR = $(PREFIX)/bin
 DOCDIR = $(PREFIX)/share/doc
 
 SUBDIRS = libnsgif
-CFLAGS = -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`
+CFLAGS = -O2 -Wall -Ilibnsgif/include/ `pkg-config imlib2 --cflags`
 #CFLAGS = -g -O2 -Wall -Ilibnsgif/include/ `imlib2-config --cflags`
 
 # Target-per-file appears here for historical reasons
 # This needs a cleanup
 
 headers:
-	echo '#define GEN_IMLIB_ERRNO_LENGTH '`awk /^enum\ _imlib_load_error/,/\}\;/ /usr/include/Imlib2.h | grep IMLIB | sed  -r 's/([A-Z_])+/\"&\"/g' | wc -l` > imlib_errno_generated.h
+	#echo '#define GEN_IMLIB_ERRNO_LENGTH '`awk /^enum\ _imlib_load_error/,/\}\;/ $(shell pkg-config imlib2 --cflags|sed 's/-I//g')/Imlib2.h | grep IMLIB_LOAD_ERROR | sed  -r 's/([A-Z_])+/\"&\"/g' | wc -l` > imlib_errno_generated.h
+	echo '#define GEN_IMLIB_ERRNO_LENGTH '`cat $(shell pkg-config imlib2 --cflags|sed 's/-I//g')/Imlib2.h | grep IMLIB_LOAD_ERROR | sed  -r 's/([A-Z_])+/\"&\"/g' | wc -l` > imlib_errno_generated.h
 	echo >> imlib_errno_generated.h
 	echo 'char *imlib_errno_generated[GEN_IMLIB_ERRNO_LENGTH] = {' >> imlib_errno_generated.h
-	awk /^enum\ _imlib_load_error/,/\}\;/ /usr/include/Imlib2.h | grep IMLIB | sed  -r 's/([A-Z_])+/\"&\"/g' >> imlib_errno_generated.h
+	cat $(shell pkg-config imlib2 --cflags|sed 's/-I//g')/Imlib2.h | grep IMLIB_LOAD_ERROR | sed  -r 's/([A-Z_])+/\"&\"/g' >> imlib_errno_generated.h
 	echo '};' >> imlib_errno_generated.h
 	
 	echo '#define CONVLITE_VERSION "$(VERSION)"' > version.h
@@ -28,7 +29,7 @@ subdirs:
 	$(MAKE) -C $$dir BUILDDIR=../; \
 	done
 
-imthumb: imthumb.c
+imthumb: imthumb.c imlib_errno_generated.h
 	gcc $(CFLAGS) -c imthumb.c -o imthumb.o 
 
 gifthumb: gifthumb.c
@@ -51,7 +52,7 @@ exif_data: exif_data.c
 
 convlite: main.c main.o imthumb.o gifthumb.o brokenjpeg.o copy.o funnel_gif.o exif_data.o libnsgif.a
 		gcc $(CFLAGS) -c main.c -o main.o
-		gcc -o convlite main.o imthumb.o gifthumb.o brokenjpeg.o fallbacks.o copy.o funnel_gif.o exif_data.o libnsgif.a `imlib2-config --libs` `pkg-config --libs libexif` -lgd -lz -lm -lgif
+		gcc -o convlite main.o imthumb.o gifthumb.o brokenjpeg.o fallbacks.o copy.o funnel_gif.o exif_data.o libnsgif.a `pkg-config --libs imlib2` `pkg-config --libs libexif` -lgd -lz -lm -lgif
 
 install:
 	install -d $(DESTDIR)$(BINDIR)
